@@ -1,4 +1,4 @@
 # SpaceInvaders
-Mini-game project.
-Programming language : Python
-Used framework : Pygame
+Mini-game project.\n
+Programming language : Python \n
+Used framework : Pygame \n
