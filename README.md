@@ -1,2 +1,4 @@
 # SpaceInvaders
-First Lil Pygame Project
+Mini-game project.
+Programming language : Python
+Used framework : Pygame
