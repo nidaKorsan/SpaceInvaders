@@ -31,12 +31,16 @@ class Game:
 
     def run(self):
         while True:
+            if Stats.LASTTIME - Stats.FRAMETIME >= 500:
+                Stats.FRAMETIME = Stats.LASTTIME
+                Alliance.frameFlag = not(Alliance.frameFlag)
             Stats.DELTATIME = pygame.time.get_ticks() - Stats.LASTTIME
             Stats.LASTTIME = pygame.time.get_ticks()
 
             self.screen.fill((0, 0, 0))
 
             self.cannon.draw(self.screen)
+
             self.ball, self.cannon = self.alliance.draw(self.screen, self.ball, self.cannon)
 
             for i in range(4):

@@ -3,8 +3,10 @@ from GameEntities.AlienGun import AlienGun
 from GameEntities.Cannon import Cannonball
 from gamestats import Stats
 import random
+import pygame
 
 class Alliance:
+    frameFlag = False  # frame0
     def __init__(self):
         self.allies = []
         for i in range(5):
@@ -16,12 +18,24 @@ class Alliance:
         self.counter = 190
         self.gun = None
 
+
+    def frame(self):
+        if Stats.LASTTIME - Stats.FRAMETIME >= 1000:
+            if self.frameFlag is False:
+                self.frameFlag = True
+            else:
+                self.frameFlag = False
+
     def draw(self, screen, ball, cannon):
+
         res = ball
         resCan = cannon
         downFlag = False
+
         self.counter += Stats.DELTATIME
-        print (float(Stats.DELTATIME))
+        print(float(Stats.LASTTIME))
+        print(float(Stats.FRAMETIME))
+
         if self.counter >= 3000 and self.gun is None:
             self.counter = 0
             al = None
@@ -42,7 +56,7 @@ class Alliance:
                     if self.allies[i][j].corX + self.allies[i][j].size[0] / 2 >= Stats.WIDTH:
                         self.direction = -1
                         downFlag = True
-                    elif  self.allies[i][j].corX - self.allies[i][j].size[0] / 2 <= 0:
+                    elif self.allies[i][j].corX - self.allies[i][j].size[0] / 2 <= 0:
                         self.direction = 1
                         downFlag = True
 
@@ -61,9 +75,13 @@ class Alliance:
                     else:
                         self.allies[i][j].moveLeft()
 
-                    self.allies[i][j].draw(screen)
+                    if self.frameFlag is False:
+                        self.allies[i][j].draw(screen)
+                    else:
+                        self.allies[i][j].draw2(screen)
+
                     if res is not None and \
-                           res.corX - Cannonball.size[0] / 2 <= self.allies[i][j].corX + self.allies[i][j].size[0] / 2\
+                            res.corX - Cannonball.size[0] / 2 <= self.allies[i][j].corX + self.allies[i][j].size[0] / 2\
                             and res.corX + Cannonball.size[0] / 2 >= self.allies[i][j].corX - self.allies[i][j].size[0] / 2\
                             and res.corY + Cannonball.size[1] / 2 >= self.allies[i][j].corY - self.allies[i][j].size[1] / 2\
                             and res.corY - Cannonball.size[1] / 2 <= self.allies[i][j].corY + self.allies[i][j].size[1] / 2:
